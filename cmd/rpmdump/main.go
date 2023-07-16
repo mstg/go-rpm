@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/cavaliercoder/go-rpm"
+	"github.com/mstg/go-rpm"
 )
 
 func main() {

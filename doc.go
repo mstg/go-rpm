@@ -5,7 +5,7 @@ Package rpm provides a native implementation of the RPM file specification.
 
 	import (
 		"fmt"
-		"github.com/cavaliercoder/go-rpm"
+		"github.com/mstg/go-rpm"
 	)
 
 	func main() {
@@ -16,6 +16,5 @@ Package rpm provides a native implementation of the RPM file specification.
 
 		fmt.Printf("Loaded package: %v", p)
 	}
-
 */
 package rpm

@@ -1,4 +1,4 @@
-PACKAGE = github.com/cavaliercoder/go-rpm
+PACKAGE = github.com/mstg/go-rpm
 
 all: check install
 

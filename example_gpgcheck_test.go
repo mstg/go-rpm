@@ -2,7 +2,7 @@ package rpm_test
 
 import (
 	"fmt"
-	"github.com/cavaliercoder/go-rpm"
+	"github.com/mstg/go-rpm"
 	"os"
 )
 

@@ -1,8 +1,8 @@
-# go-rpm [![GoDoc](https://godoc.org/github.com/cavaliercoder/go-rpm?status.svg)](https://godoc.org/github.com/cavaliercoder/go-rpm) [![Build Status](https://travis-ci.org/cavaliercoder/go-rpm.svg?branch=master)](https://travis-ci.org/cavaliercoder/go-rpm) [![Go Report Card](https://goreportcard.com/badge/github.com/cavaliercoder/go-rpm)](https://goreportcard.com/report/github.com/cavaliercoder/go-rpm)
+# go-rpm [![GoDoc](https://godoc.org/github.com/mstg/go-rpm?status.svg)](https://godoc.org/github.com/mstg/go-rpm) [![Build Status](https://travis-ci.org/cavaliercoder/go-rpm.svg?branch=master)](https://travis-ci.org/cavaliercoder/go-rpm) [![Go Report Card](https://goreportcard.com/badge/github.com/mstg/go-rpm)](https://goreportcard.com/report/github.com/mstg/go-rpm)
 
 A native implementation of the RPM file specification in Go.
 
-	$ go get github.com/cavaliercoder/go-rpm
+	$ go get github.com/mstg/go-rpm
 
 
 The go-rpm package aims to enable cross-platform tooling for yum/dnf/rpm
@@ -20,7 +20,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/cavaliercoder/go-rpm"
+	"github.com/mstg/go-rpm"
 )
 
 func main() {

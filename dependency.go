@@ -3,7 +3,7 @@ package rpm
 import (
 	"fmt"
 
-	"github.com/cavaliercoder/go-rpm/version"
+	"github.com/mstg/go-rpm/version"
 )
 
 // Dependency flags indicate how versions comparisons should be computed when

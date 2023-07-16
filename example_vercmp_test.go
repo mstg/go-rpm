@@ -5,8 +5,8 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/cavaliercoder/go-rpm"
-	"github.com/cavaliercoder/go-rpm/version"
+	"github.com/mstg/go-rpm"
+	"github.com/mstg/go-rpm/version"
 )
 
 // ExampleVersionCompare reads packages in a directory and prints the name of
