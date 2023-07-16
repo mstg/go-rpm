@@ -25,7 +25,8 @@ var gpgPubkeyTbl = map[packet.PublicKeyAlgorithm]string{
 
 // Map Go hashes to rpm info name
 // See: https://golang.org/src/crypto/crypto.go?s=#L23
-//      https://github.com/rpm-software-management/rpm/blob/3b1f4b0c6c9407b08620a5756ce422df10f6bd1a/rpmio/rpmpgp.c#L88
+//
+//	https://github.com/rpm-software-management/rpm/blob/3b1f4b0c6c9407b08620a5756ce422df10f6bd1a/rpmio/rpmpgp.c#L88
 var gpgHashTbl = []string{
 	"Unknown hash algorithm",
 	"MD4",
@@ -151,6 +152,66 @@ func GPGCheck(r io.Reader, keyring openpgp.KeyRing) (string, error) {
 
 	// check signature
 	signer, err := openpgp.CheckDetachedSignature(keyring, r, bytes.NewReader(sigval))
+	if err == errors.ErrUnknownIssuer {
+		return "", ErrGPGValidationFailed
+	} else if err != nil {
+		return "", err
+	}
+
+	// get signer identity
+	for id := range signer.Identities {
+		return id, nil
+	}
+
+	return "", fmt.Errorf("No identity found in public key")
+}
+
+// GPGCheck2 validates the integrity of a RPM package file read from the given
+// Only checks the newer tag RSA
+func GPGCheck2(r io.ReadSeeker, keyring openpgp.KeyRing) (string, error) {
+	// read signature header
+	sigheader, err := rpmReadSigHeader(r)
+	if err != nil {
+		return "", err
+	}
+
+	// get signature bytes
+	sigval := sigheader.Indexes.BytesByTag(268)
+	if sigval == nil {
+		return "", fmt.Errorf("Package signature not found")
+	}
+
+	// Get header start offset
+	headerStart, err := r.Seek(0, io.SeekCurrent)
+	if err != nil {
+		return "", err
+	}
+
+	// Parse header
+	_, err = ReadPackageHeader(r)
+	if err != nil {
+		return "", err
+	}
+
+	// Get header end offset
+	headerEnd, err := r.Seek(0, io.SeekCurrent)
+	if err != nil {
+		return "", err
+	}
+
+	// Get header length
+	headerLength := headerEnd - headerStart
+
+	// Seek back to start of header
+	_, err = r.Seek(headerStart, io.SeekStart)
+	if err != nil {
+		return "", err
+	}
+
+	reader := io.LimitReader(r, int64(headerLength))
+
+	// check signature
+	signer, err := openpgp.CheckDetachedSignature(keyring, reader, bytes.NewReader(sigval))
 	if err == errors.ErrUnknownIssuer {
 		return "", ErrGPGValidationFailed
 	} else if err != nil {
